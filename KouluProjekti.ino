@@ -1,4 +1,5 @@
 #include <LiquidCrystal.h>
+int etaisyys = 3;
 
 const int rs = 12, en =11, d4 = 5, d5 = 4, d6 = 3, d7 = 2; //Reserving digital pins 2-7 for lcd
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //intializing the LiquidCrystal library by associating the pins
@@ -8,7 +9,7 @@ void setup() {
   lcd.begin(16, 2);
   //tell the user that we're calibrating the sensor
   lcd.print("calibrating");
-  delay(10000); //remove when the calibration code is written!!!!
+  delay(1000); //remove when the calibration code is written!!!!
   lcd.clear();
   //calibrating the sensor
   //telling the user that calibration is done
@@ -17,11 +18,11 @@ void setup() {
   lcd.print("is done");
   delay(10000);
   lcd.clear();
-
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+   ilmoitusLCD();
 
 }
 
@@ -38,5 +39,10 @@ void ilmoitusSahkoposti(){
 }
 
 void ilmoitusLCD(){
+  lcd.setCursor(0, 0); //sets cursor to the first row
+  lcd.print("Distance:");
+  lcd.setCursor(0, 1);
+  lcd.print(etaisyys); //prints etaisyys
+  lcd.print(" m");
   
 }
