@@ -15,7 +15,7 @@
 
 /* Sign in credentials */
 #define AUTHOR_EMAIL "emailservolcdrfidproject@gmail.com"
-#define AUTHOR_PASSWORD "nrpotsdtoixbwofq"
+#define AUTHOR_PASSWORD ""
 
 #define RECIPIENT_EMAIL "emailservolcdrfidproject@gmail.com"
 
