@@ -1,2 +1,2 @@
 # Ultra-Servo-Email-Project
-A school project
+The goal of this project is to build a device where an ultrasound scanner that is placed on top of a rotating servo-motor. The components are hooked into an Arduino Uno and the data is displayed on an LCD screen. Furthermore, Arduino has wifi connection powered by ESP8266 WIFI-module which enables the possibility to send an email message after the ultrasound sensor receives some data.
