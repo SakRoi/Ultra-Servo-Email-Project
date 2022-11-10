@@ -1,13 +1,16 @@
 #include <LiquidCrystal.h>
 Servo myservo;        //servo object to control a servo
-int etaisyys = 3;
+int distance = 0;
 int servoPos = 0;    //variable to store the servo position
-const int rs = 12, en =11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13; //Reserving digital pins 2-7 for lcd
+const int rs = 12, en =11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9; //Reserving digital pins 2-7 for lcd
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //intializing the LiquidCrystal library by associating the pins
 
 void setup() {
-  //Kalibration of the sensor
+  //Calibration of the sensor
   myservo.attach(servoPin);   //attaches the servo on pin 13 to the servo object
+  //Setting the pin modes of the ultrasonic sensor
+  pinMode(trigPin, OUTPUT); 
+  pinMode(echoPin, INPUT);
   //setting the LCD's colums and rows (16 columns, 2 rows)
   lcd.begin(16, 2);
   //tell the user that we're calibrating the sensor
@@ -41,7 +44,21 @@ void servoMoottori(){
 }
 
 int aaniTutka(){
-  
+
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    duration = pulseIn(echoPin, HIGH);
+    distance = (duration/2) / 29.1;
+    //when distance is greater than or equal to 200 OR less than or equal to 0,LED is off
+  if (distance >= 200 || distance <= 0) 
+        {
+        Serial.println("no object detected");
+        }
+  else {
+        Serial.print("distance= ");              
+        Serial.println(distance );        
+  }
 }
 
 void ilmoitusSahkoposti(){
@@ -52,7 +69,7 @@ void ilmoitusLCD(){
   lcd.setCursor(0, 0); //sets cursor to the first row
   lcd.print("Distance:");
   lcd.setCursor(0, 1);
-  lcd.print(etaisyys); //prints etaisyys
+  lcd.print(distance); //prints etaisyys
   lcd.print(" m");
   
 }
