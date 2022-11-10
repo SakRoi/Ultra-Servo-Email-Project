@@ -1,16 +1,13 @@
-
-
 #include <LiquidCrystal.h>
-int etaisyys = 3;
 Servo myservo;        //servo object to control a servo
+int etaisyys = 3;
 int servoPos = 0;    //variable to store the servo position
-
-const int rs = 12, en =11, d4 = 5, d5 = 4, d6 = 3, d7 = 2; //Reserving digital pins 2-7 for lcd
+const int rs = 12, en =11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13; //Reserving digital pins 2-7 for lcd
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //intializing the LiquidCrystal library by associating the pins
 
 void setup() {
-  //tutkan kalibrointi
-  myservo.attach(13);   //attaches the servo on pin 13 to the servo object
+  //Kalibration of the sensor
+  myservo.attach(servoPin);   //attaches the servo on pin 13 to the servo object
   //setting the LCD's colums and rows (16 columns, 2 rows)
   lcd.begin(16, 2);
   //tell the user that we're calibrating the sensor
