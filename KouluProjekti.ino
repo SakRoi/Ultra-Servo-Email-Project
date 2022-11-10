@@ -45,12 +45,12 @@ void servoMoottori(){
 
 int aaniTutka(){
 
-    digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin, LOW);
-    duration = pulseIn(echoPin, HIGH);
-    distance = (duration/2) / 29.1;
-    //when distance is greater than or equal to 200 OR less than or equal to 0,LED is off
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration/2) / 29.1;
+  //when distance is greater than or equal to 200 OR less than or equal to 0,LED is off
   if (distance >= 200 || distance <= 0) 
         {
         Serial.println("no object detected");
