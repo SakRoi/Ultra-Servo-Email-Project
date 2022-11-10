@@ -1,11 +1,13 @@
 #include <LiquidCrystal.h>
+#include <Servo.h>
 Servo myservo;        //servo object to control a servo
 int distance = 0;
 int servoPos = 0;    //variable to store the servo position
-const int rs = 12, en =11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9; //Reserving digital pins 2-7 for lcd
+const int rs = 12, en =11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9; //Reserving digital pins 2-7 for lcd, pin 13 for servo and pins 10-9 for ultrasonic sensor
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //intializing the LiquidCrystal library by associating the pins
 
 void setup() {
+  Serial.begin(9600);
   //Calibration of the sensor
   myservo.attach(servoPin);   //attaches the servo on pin 13 to the servo object
   //Setting the pin modes of the ultrasonic sensor
@@ -28,6 +30,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+   aaniTutka();
    ilmoitusLCD();
 
 }
@@ -44,14 +47,13 @@ void servoMoottori(){
 }
 
 int aaniTutka(){
-
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  duration = pulseIn(echoPin, HIGH);
-  distance = (duration/2) / 29.1;
-  //when distance is greater than or equal to 200 OR less than or equal to 0,LED is off
-  if (distance >= 200 || distance <= 0) 
+    distance = 0;
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    int duration = pulseIn(echoPin, HIGH);
+    distance = (duration/58);
+  if (distance >= 400 || distance <= 0) 
         {
         Serial.println("no object detected");
         }
@@ -66,10 +68,18 @@ void ilmoitusSahkoposti(){
 }
 
 void ilmoitusLCD(){
+  lcd.clear();
   lcd.setCursor(0, 0); //sets cursor to the first row
   lcd.print("Distance:");
   lcd.setCursor(0, 1);
-  lcd.print(distance); //prints etaisyys
-  lcd.print(" m");
-  
+  if (distance > 400)
+  {
+    lcd.print("400+ cm");
+  }
+  else{
+   lcd.print(distance); //prints etaisyys
+   lcd.print( "cm"); 
+  }
+
+  //if (kalibrated[x] != distance && kalibrated[x] != (distance + 1 || distance - 1)
 }
