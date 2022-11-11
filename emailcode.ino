@@ -14,10 +14,10 @@
 #define SMTP_PORT 465
 
 /* Sign in credentials */
-#define AUTHOR_EMAIL "emailservolcdrfidproject@gmail.com"
+#define AUTHOR_EMAIL ""
 #define AUTHOR_PASSWORD ""
 
-#define RECIPIENT_EMAIL "emailservolcdrfidproject@gmail.com"
+#define RECIPIENT_EMAIL ""
 
 /* SMTP Session object for sending email*/
 SMTPSession smpt;
