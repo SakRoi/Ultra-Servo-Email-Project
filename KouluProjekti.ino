@@ -1,3 +1,11 @@
+/* This school project was made by:
+ *  Saku Roininen - LCD screen
+ *  Santtu Niskanen - ESP3866 connection and email
+ *  Joonas Ridanpää - Ultrasonic sensor
+ *  Lauri Tuovinen - Servo Motor
+*/
+
+
 #include <LiquidCrystal.h>
 #include <Servo.h>
 Servo myservo;        //servo object to control a servo
@@ -9,7 +17,8 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //intializing the LiquidCrystal libra
 void setup() {
   Serial.begin(9600);
   //Calibration of the sensor
-  myservo.attach(servoPin);   //attaches the servo on pin 13 to the servo object
+  //attaches the servo on pin 13 to the servo object
+  myservo.attach(servoPin);   
   //Setting the pin modes of the ultrasonic sensor
   pinMode(trigPin, OUTPUT); 
   pinMode(echoPin, INPUT);
