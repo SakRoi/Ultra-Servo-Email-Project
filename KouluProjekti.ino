@@ -9,6 +9,7 @@
 #include <LiquidCrystal.h>
 #include <Servo.h>
 Servo myservo;        //servo object to control a servo
+int calibratedDistance [12];
 int distance = 0;
 int servoPos = 0;    //variable to store the servo position
 const int rs = 12, en =11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9; //Reserving digital pins 2-7 for lcd, pin 13 for servo and pins 10-9 for ultrasonic sensor
@@ -26,6 +27,7 @@ void setup() {
   lcd.begin(16, 2);
   //tell the user that we're calibrating the sensor
   lcd.print("calibrating");
+  calibration();
   delay(1000); //remove when the calibration code is written!!!!
   lcd.clear();
   //calibrating the sensor
@@ -68,7 +70,8 @@ int aaniTutka(){
         }
   else {
         Serial.print("distance= ");              
-        Serial.println(distance );        
+        Serial.println(distance );
+        return distance;        
   }
 }
 
@@ -89,6 +92,12 @@ void ilmoitusLCD(){
    lcd.print(distance); //prints etaisyys
    lcd.print( "cm"); 
   }
-
-  //if (kalibrated[x] != distance && kalibrated[x] != (distance + 1 || distance - 1)
+  //if (calibrated[x] != distance && calibrated[x] != (distance + 1 || distance - 1)
 }
+
+void calibration(){
+  for (int x = 0; x < 13; x++){
+    calibratedDistance[x]=aaniTutka();
+    Serial.println(calibratedDistance[x]);
+  }
+ }
