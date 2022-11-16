@@ -34,7 +34,7 @@ void setup() {
   lcd.print("calibration");
   lcd.setCursor(0, 1);
   lcd.print("is done");
-  delay(10000);
+  delay(1000);
   lcd.clear();
 }
 
@@ -125,7 +125,7 @@ void calibration(){
   }
  }
 
-// void scanCompare(){
+// bool scanCompare(){
 //  int index = 0;
 //  if (servoPos == 0){
 //   if (calibratedDistance[0] != distance && calibratedDistance[0] != (distance + 1 || distance - 1)
