@@ -9,6 +9,7 @@
 #include <LiquidCrystal.h>
 #include <Servo.h>
 Servo myservo;        //servo object to control a servo
+bool rotation = true; //this is used to check, if the servo is rotatin to or from 180 degrees. true = 0 -> 180 and false 180 -> 0
 int calibratedDistance [12];
 int distance = 0;
 int servoPos = 0;    //variable to store the servo position
@@ -42,20 +43,31 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
    aaniTutka();
+   servoMoottori();
    ilmoitusLCD();
 
 }
 
 void servoMoottori(){
-  for (servoPos = 0; servoPos <= 180; servoPos += 15) {  // goes from 0 degrees to 180 degrees
-    myservo.write(servoPos);                           // tell servo to go to position in variable 'servoPos'
-    delay(1000);                                        // waits 40ms for the servo to reach the position
+  if(rotation)
+  {
+    servoPos += 15;
+    myservo.write(servoPos); 
+      if(servoPos == 180)
+      {
+        rotation = false;
+      }
   }
-  for (servoPos = 180; servoPos >= 0; servoPos -= 15) { // goes from 180 degrees to 0 degrees
-    myservo.write(servoPos);                          // tell servo to go to position in variable 'servoPos'
-    delay(1000);                                       // waits 40ms for the servo to reach the position
+  else
+  {
+    servoPos -= 15;
+    myservo.write(servoPos);
+      if(servoPos == 0)
+      {
+        rotation = true;
+      }
+    }
   }
-}
 
 int aaniTutka(){
     distance = 0;
@@ -65,14 +77,16 @@ int aaniTutka(){
     int duration = pulseIn(echoPin, HIGH);
     distance = (duration/58);
   if (distance >= 400 || distance <= 0) 
-        {
+    {
         Serial.println("no object detected");
-        }
-  else {
+    }
+  else 
+    {
         Serial.print("distance= ");              
         Serial.println(distance );
         return distance;        
-  }
+    }
+  return distance = 15;
 }
 
 void ilmoitusSahkoposti(){
@@ -84,6 +98,7 @@ void ilmoitusLCD(){
   lcd.setCursor(0, 0); //sets cursor to the first row
   lcd.print("Distance:");
   lcd.setCursor(0, 1);
+  //400 is the maximum distance of the ultrasonic
   if (distance > 400)
   {
     lcd.print("400+ cm");
@@ -96,8 +111,24 @@ void ilmoitusLCD(){
 }
 
 void calibration(){
-  for (int x = 0; x < 13; x++){
-    calibratedDistance[x]=aaniTutka();
-    Serial.println(calibratedDistance[x]);
+  for (int index = 0; index < 13; index++){
+    calibratedDistance[index]=aaniTutka;
+    if (index < 12){
+      servoMoottori();
+    }
+    Serial.println("index");
+    Serial.println(index);
+    Serial.println("servo Position");
+    Serial.println(servoPos);
   }
  }
+
+// void scanCompare(){
+//  int index = 0;
+//  if (servoPos == 0){
+//   if (calibratedDistance[0] != distance && calibratedDistance[0] != (distance + 1 || distance - 1)
+//   {
+//    
+//   }
+//  }
+// }
