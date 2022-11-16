@@ -18,7 +18,6 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //intializing the LiquidCrystal libra
 
 void setup() {
   Serial.begin(9600);
-  //Calibration of the sensor
   //attaches the servo on pin 13 to the servo object
   myservo.attach(servoPin);   
   //Setting the pin modes of the ultrasonic sensor
@@ -26,12 +25,11 @@ void setup() {
   pinMode(echoPin, INPUT);
   //setting the LCD's colums and rows (16 columns, 2 rows)
   lcd.begin(16, 2);
-  //tell the user that we're calibrating the sensor
   lcd.print("calibrating");
-  calibration();
-  delay(1000); //remove when the calibration code is written!!!!
-  lcd.clear();
   //calibrating the sensor
+  myservo.write(servoPos);
+  calibration();
+  lcd.clear();
   //telling the user that calibration is done
   lcd.print("calibration");
   lcd.setCursor(0, 1);
@@ -83,10 +81,10 @@ int aaniTutka(){
   else 
     {
         Serial.print("distance= ");              
-        Serial.println(distance );
-        return distance;        
+        Serial.println(distance );     
     }
-  return distance = 15;
+    delay(200);
+    return distance;
 }
 
 void ilmoitusSahkoposti(){
@@ -111,13 +109,17 @@ void ilmoitusLCD(){
 }
 
 void calibration(){
+  
   for (int index = 0; index < 13; index++){
-    calibratedDistance[index]=aaniTutka;
+    calibratedDistance[index]=aaniTutka();
     if (index < 12){
       servoMoottori();
+      delay(1000);
     }
     Serial.println("index");
     Serial.println(index);
+    Serial.println("calibration");
+    Serial.println(calibratedDistance[index]);
     Serial.println("servo Position");
     Serial.println(servoPos);
   }
