@@ -13,7 +13,7 @@ bool rotation = true; //this is used to check, if the servo is rotatin to or fro
 int calibratedDistance [12];
 int distance = 0;
 int servoPos = 0;    //variable to store the servo position
-const int rs = 12, en =11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9; //Reserving digital pins 2-7 for lcd, pin 13 for servo and pins 10-9 for ultrasonic sensor
+const int rs = 12, en =11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9, ESPPin = 8; //Reserving digital pins 2-7 for lcd, pin 13 for servo, pin 8 for ESP3866 and pins 10-9 for ultrasonic sensor
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //intializing the LiquidCrystal library by associating the pins
 
 void setup() {
@@ -23,6 +23,8 @@ void setup() {
   //Setting the pin modes of the ultrasonic sensor
   pinMode(trigPin, OUTPUT); 
   pinMode(echoPin, INPUT);
+  //Setting the pin modes for the ESP3886
+  pinMode(ESPPin, OUTPUT);
   //setting the LCD's colums and rows (16 columns, 2 rows)
   lcd.begin(16, 2);
   lcd.print("calibrating");
@@ -42,6 +44,7 @@ void loop() {
   // put your main code here, to run repeatedly:
    aaniTutka();
    servoMoottori();
+   scanCompare();
    ilmoitusLCD();
 
 }
@@ -88,7 +91,9 @@ int aaniTutka(){
 }
 
 void ilmoitusSahkoposti(){
-  
+  digitalWrite(ESPPin, HIGH);
+  delay(1000);
+  digitalWrite(ESPPin, LOW);
 }
 
 void ilmoitusLCD(){
@@ -105,7 +110,6 @@ void ilmoitusLCD(){
    lcd.print(distance); //prints etaisyys
    lcd.print( "cm"); 
   }
-  //if (calibrated[x] != distance && calibrated[x] != (distance + 1 || distance - 1)
 }
 
 void calibration(){
@@ -125,35 +129,14 @@ void calibration(){
   }
  }
 
- bool scanCompare(){
+ void scanCompare(){
    int x = servoPos/15; 
-    
-   for (int index = x; index <= 13; index++)
-   {
-     aaniTutka();
-     if (calibratedDistance[index] == distance || calibratedDistance[index] == (distance + 1 || distance - 1)
+     if (calibratedDistance[x] != distance || calibratedDistance[x] != (distance + 1 || distance - 1)
      {
-       servoMoottori();
-       delay(1000);
+     ilmoitusSahkoposti();
      }
-     else()
+     else
      {
-       ilmoitusSahkoposti();
      }
-   }
-    
-   for (int index = x; index = 0; index--)
-   {
-     aaniTutka();
-     if (calibratedDistance[index] == distance || calibratedDistance[index] == (distance + 1 || distance - 1)
-     {
-        servoMoottori();
-        delay(1000);
-     }
-     else()
-     {
-       ilmoitusSahkoposti();
-     }
-   }
         
  }
