@@ -125,12 +125,35 @@ void calibration(){
   }
  }
 
-// bool scanCompare(){
-//  int index = 0;
-//  if (servoPos == 0){
-//   if (calibratedDistance[0] != distance && calibratedDistance[0] != (distance + 1 || distance - 1)
-//   {
-//    
-//   }
-//  }
-// }
+ bool scanCompare(){
+   int x = servoPos/15; 
+    
+   for (int index = x; index <= 13; index++)
+   {
+     aaniTutka();
+     if (calibratedDistance[index] == distance || calibratedDistance[index] == (distance + 1 || distance - 1)
+     {
+       servoMoottori();
+       delay(1000);
+     }
+     else()
+     {
+       ilmoitusSahkoposti();
+     }
+   }
+    
+   for (int index = x; index = 0; index--)
+   {
+     aaniTutka();
+     if (calibratedDistance[index] == distance || calibratedDistance[index] == (distance + 1 || distance - 1)
+     {
+        servoMoottori();
+        delay(1000);
+     }
+     else()
+     {
+       ilmoitusSahkoposti();
+     }
+   }
+        
+ }
