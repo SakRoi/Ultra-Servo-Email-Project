@@ -9,11 +9,13 @@
 #include <LiquidCrystal.h>
 #include <Servo.h>
 Servo myservo;        //servo object to control a servo
+
 bool rotation = true; //this is used to check, if the servo is rotatin to or from 180 degrees. true = 0 -> 180 and false 180 -> 0
 int calibratedDistance [12];
 int distance = 0;
 int servoPos = 0;    //variable to store the servo position
 const int rs = 12, en =11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9, ESPPin = 8; //Reserving digital pins 2-7 for lcd, pin 13 for servo, pin 8 for ESP3866 and pins 10-9 for ultrasonic sensor
+
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //intializing the LiquidCrystal library by associating the pins
 
 void setup() {
@@ -50,22 +52,26 @@ void loop() {
 }
 
 void servoMoottori(){
-  if(rotation)
+  if(rotation = true)
   {
     servoPos += 15;
     myservo.write(servoPos); 
-      if(servoPos == 180)
+      if(servoPos >= 180)
       {
+        Serial.write("turning");
         rotation = false;
+        servoPos = 180;
       }
   }
   else
   {
     servoPos -= 15;
     myservo.write(servoPos);
-      if(servoPos == 0)
+      if(servoPos <= 0)
       {
+        Serial.write("turning");
         rotation = true;
+        servoPos = 0;
       }
     }
   }
@@ -91,9 +97,11 @@ int aaniTutka(){
 }
 
 void ilmoitusSahkoposti(){
-  digitalWrite(ESPPin, HIGH);
+  Serial.println("Email Send!");
+  delay(500);
+  /*digitalWrite(ESPPin, HIGH);
   delay(1000);
-  digitalWrite(ESPPin, LOW);
+  digitalWrite(ESPPin, LOW);*/
 }
 
 void ilmoitusLCD(){
@@ -118,25 +126,30 @@ void calibration(){
     calibratedDistance[index]=aaniTutka();
     if (index < 12){
       servoMoottori();
-      delay(1000);
     }
-    Serial.println("index");
-    Serial.println(index);
-    Serial.println("calibration");
-    Serial.println(calibratedDistance[index]);
-    Serial.println("servo Position");
-    Serial.println(servoPos);
+    delay(2000);
+      Serial.println("index");
+      Serial.println(index);
+      Serial.println("calibration");
+      Serial.println(calibratedDistance[index]);
+      Serial.println("servo Position");
+      Serial.println(servoPos);    
   }
  }
 
- void scanCompare(){
-   int x = servoPos/15; 
-     if (calibratedDistance[x] != distance || calibratedDistance[x] != (distance + 1 || distance - 1)
-     {
-     ilmoitusSahkoposti();
-     }
-     else
-     {
-     }
-        
- }
+void scanCompare(){
+  delay(1000);
+  int x = servoPos/15; 
+    if (calibratedDistance[x] != distance && calibratedDistance[x] != (distance + 1) or (distance - 1)){
+      Serial.print("Calibrated value in this index ");
+      Serial.println(calibratedDistance[x]);
+      Serial.println(x);
+      Serial.println(servoPos);
+      Serial.print("Current distance ");
+      Serial.println(distance);
+      delay(1000);
+      ilmoitusSahkoposti();
+    }
+    else{
+    }
+}
