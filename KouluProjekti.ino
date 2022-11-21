@@ -52,7 +52,6 @@ void loop() {
 }
 
 void servoMoottori() {
-  Serial.write(servoPos);
   if (rotation)
   {
     servoPos += 15;
@@ -112,7 +111,7 @@ void ilmoitusLCD() {
     lcd.print("400+ cm");
   }
   else {
-    lcd.print(distance); //prints etaisyys
+    lcd.print(distance); //prints distance
     lcd.print( "cm");
   }
 }
@@ -125,11 +124,11 @@ void calibration() {
       servoMoottori();
       delay(1000);
     }
-    Serial.println("index");
+    Serial.print("index ");
     Serial.println(index);
-    //    Serial.println("calibration");
-    //    Serial.println(calibratedDistance[index]);
-    Serial.println("servo Position");
+    Serial.print("calibration ");
+    Serial.println(calibratedDistance[index]);
+    Serial.print("servo Position ");
     Serial.println(servoPos);
   }
 }
