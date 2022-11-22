@@ -34,6 +34,8 @@ void setup() {
   //calibrating the sensor
   myservo.write(servoPos);
   calibration();
+  Serial.print("calibration for 12th element in array (setup) ");
+  Serial.println(calibratedDistance[12]);
   lcd.clear();
   
   //telling the user that calibration is done
@@ -83,6 +85,7 @@ void servoMoottori() {
       rotation = true;
     }
   }
+  delay(500);
 }
 
 int aaniTutka() {
@@ -99,8 +102,8 @@ int aaniTutka() {
   }
   else
   {
-    Serial.print("distance= ");
-    Serial.println(distance );
+//    Serial.print("distance= ");
+//    Serial.println(distance );
   }
   
   delay(200);
@@ -130,20 +133,20 @@ void ilmoitusLCD() {
 }
 
 void calibration() {
-  for (int index = 0; index <= 12; index++) {
+  for (int index = 0; index < 13; index++) {
     calibratedDistance[index] = aaniTutka();
     Serial.print("index ");
     Serial.println(index);
     Serial.print("servo Position ");
     Serial.println(servoPos);
     
-    if (index != 0){
-      arrayPosition();
-      Serial.print("array Position ");
-      Serial.println(arrayPos);
-    }
+//    if (index != 0){
+//      arrayPosition();
+//      Serial.print("array Position ");
+//      Serial.println(arrayPos);
+//    }
     
-    if (index <= 11) {
+    if (index < 12) {
       servoMoottori();
     }
     
@@ -152,8 +155,17 @@ void calibration() {
     Serial.println(calibratedDistance[index]);
 //    Serial.print("index ");
 //    Serial.println(index);
+  Serial.print("calibration for 12th element in array (calibration for-loop) ");
+  Serial.println(calibratedDistance[12]);
+  delay(500);
   }
-  arrayPos = 12; //this is here due to the unknown error causing the last loop making both arrayPos and calibratedDistance be -1
+  //these two are here because for some reason, for-loop breaks both of them (they both get the right value but the value changes after they exit the for-loop, breaking the logic)
+  calibratedDistance[12] = aaniTutka();
+  int x = aaniTutka();
+  Serial.println(x);
+  arrayPos = 11;
+  Serial.print("calibration for 12th element in array (calibration) ");
+  Serial.println(calibratedDistance[12]);
 }
 
 void scanCompare() {
@@ -165,12 +177,15 @@ void scanCompare() {
   }
   else
   {
-    Serial.print("distance from scancompare: ");
-    Serial.println(distance);
-    Serial.print("distance from calibratedDistance: ");
-    Serial.println(calibratedDistance[arrayPos]);
+//    Serial.print("distance from scancompare: ");
+//    Serial.println(distance);
+//    Serial.print("distance from calibratedDistance: ");
+//    Serial.println(calibratedDistance[arrayPos]);
+    Serial.println("Ei Täsmää");
     Serial.print("arrayPos: ");
     Serial.println(arrayPos);
+    Serial.print("distance from calibratedDistance: ");
+    Serial.println(calibratedDistance[arrayPos]);
     //ilmoitusSahkoposti();
   }
 
