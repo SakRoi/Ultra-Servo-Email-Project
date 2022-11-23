@@ -10,7 +10,7 @@
 #include <Servo.h>
 Servo myservo;        //servo object to control a servo
 bool rotation = true; //this is used to check, if the servo is rotatin to or from 180 degrees. true = 0 -> 180 and false 180 -> 0
-int calibratedDistance [12] = {0};
+int calibratedDistance[13] = {0};
 int distance = 0;
 int servoPos = 0;    //variable to store the servo position
 int arrayPos = 0;     //arrayPos to circumvent the problem created by dividing servoPos by 15
@@ -133,39 +133,22 @@ void ilmoitusLCD() {
 }
 
 void calibration() {
-  for (int index = 0; index < 13; index++) {
+  arrayPos = 11;
+  int index = 0;
+  while (index < 13){
     calibratedDistance[index] = aaniTutka();
     Serial.print("index ");
     Serial.println(index);
     Serial.print("servo Position ");
     Serial.println(servoPos);
     
-//    if (index != 0){
-//      arrayPosition();
-//      Serial.print("array Position ");
-//      Serial.println(arrayPos);
-//    }
-    
     if (index < 12) {
       servoMoottori();
     }
     
-    delay(1000);
-    Serial.print("calibration ");
-    Serial.println(calibratedDistance[index]);
-//    Serial.print("index ");
-//    Serial.println(index);
-  Serial.print("calibration for 12th element in array (calibration for-loop) ");
-  Serial.println(calibratedDistance[12]);
-  delay(500);
+    index++;
+    delay(500);
   }
-  //these two are here because for some reason, for-loop breaks both of them (they both get the right value but the value changes after they exit the for-loop, breaking the logic)
-  calibratedDistance[12] = aaniTutka();
-  int x = aaniTutka();
-  Serial.println(x);
-  arrayPos = 11;
-  Serial.print("calibration for 12th element in array (calibration) ");
-  Serial.println(calibratedDistance[12]);
 }
 
 void scanCompare() {
