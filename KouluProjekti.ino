@@ -175,3 +175,13 @@ void scanCompare() {
   }
 
 }
+
+
+void emailSendTimer(){
+
+  int oldTime = millis(); 
+  int newTime = millis(); 
+    if (oldTtime - newTime >= 300000){
+      ilmoitusSahkoposti();   
+  }
+}
