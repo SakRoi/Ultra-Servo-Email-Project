@@ -10,7 +10,7 @@
 #include <Servo.h>
 Servo myservo;        //servo object to control a servo
 bool rotation = true; //this is used to check, if the servo is rotatin to or from 180 degrees. true = 0 -> 180 and false 180 -> 0
-int calibratedDistance [12] = {0};
+int calibratedDistance[13] = {0};
 int distance = 0;
 int servoPos = 0;    //variable to store the servo position
 int arrayPos = 0;     //arrayPos to circumvent the problem created by dividing servoPos by 15
@@ -36,6 +36,8 @@ void setup() {
   //calibrating the sensor
   myservo.write(servoPos);
   calibration();
+  Serial.print("calibration for 12th element in array (setup) ");
+  Serial.println(calibratedDistance[12]);
   lcd.clear();
   
   //telling the user that calibration is done
@@ -85,6 +87,7 @@ void servoMoottori() {
       rotation = true;
     }
   }
+  delay(500);
 }
 
 int aaniTutka() {
@@ -101,8 +104,8 @@ int aaniTutka() {
   }
   else
   {
-    Serial.print("distance= ");
-    Serial.println(distance );
+//    Serial.print("distance= ");
+//    Serial.println(distance );
   }
   
   delay(200);
@@ -132,30 +135,22 @@ void ilmoitusLCD() {
 }
 
 void calibration() {
-  for (int index = 0; index <= 12; index++) {
+  arrayPos = 11;
+  int index = 0;
+  while (index < 13){
     calibratedDistance[index] = aaniTutka();
     Serial.print("index ");
     Serial.println(index);
     Serial.print("servo Position ");
     Serial.println(servoPos);
     
-    if (index != 0){
-      arrayPosition();
-      Serial.print("array Position ");
-      Serial.println(arrayPos);
-    }
-    
-    if (index <= 11) {
+    if (index < 12) {
       servoMoottori();
     }
     
-    delay(1000);
-    Serial.print("calibration ");
-    Serial.println(calibratedDistance[index]);
-//    Serial.print("index ");
-//    Serial.println(index);
+    index++;
+    delay(500);
   }
-  arrayPos = 12; //this is here due to the unknown error causing the last loop making both arrayPos and calibratedDistance be -1
 }
 
 void scanCompare() {
@@ -167,12 +162,15 @@ void scanCompare() {
   }
   else
   {
-    Serial.print("distance from scancompare: ");
-    Serial.println(distance);
-    Serial.print("distance from calibratedDistance: ");
-    Serial.println(calibratedDistance[arrayPos]);
+//    Serial.print("distance from scancompare: ");
+//    Serial.println(distance);
+//    Serial.print("distance from calibratedDistance: ");
+//    Serial.println(calibratedDistance[arrayPos]);
+    Serial.println("Ei Täsmää");
     Serial.print("arrayPos: ");
     Serial.println(arrayPos);
+    Serial.print("distance from calibratedDistance: ");
+    Serial.println(calibratedDistance[arrayPos]);
     //ilmoitusSahkoposti();
   }
 
