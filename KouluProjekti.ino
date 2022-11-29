@@ -154,7 +154,7 @@ void calibration() {
 }
 
 void scanCompare() {
-  if ((calibratedDistance[arrayPos]<=(distance+2))&&(calibratedDistance[arrayPos]>=(distance-2)))
+  if ((calibratedDistance[arrayPos]<=(distance+2))&(calibratedDistance[arrayPos]>=(distance-2)))
   {
     Serial.println("Täsmää");
     Serial.print("arrayPos: ");
