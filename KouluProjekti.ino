@@ -15,7 +15,7 @@ int distance = 0;
 int servoPos = 0;    //variable to store the servo position
 int arrayPos = 0;     //arrayPos to circumvent the problem created by dividing servoPos by 15
 int newTime = 0;
-int oldTime = 300000; 
+int oldTime = 60000; 
 
 
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9, ESPPin = 8; //Reserving digital pins 2-7 for lcd, pin 13 for servo, pin 8 for ESP3866 and pins 10-9 for ultrasonic sensor
@@ -180,8 +180,9 @@ void scanCompare() {
 
 void emailSendTimer(){
     newTime = millis();
-    if(newTime - oldTime > 0){
-        oldTime = newTime;
-        ilmoitusSahkoposti();
+        if(oldTime - newTime < 0){
+            oldTime = newTime + 300000;
+            Serial.println(oldTime);
+            ilmoitusSahkoposti();
   }
 }
