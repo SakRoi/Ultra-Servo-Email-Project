@@ -6,9 +6,19 @@
 */
 
 
+#include <SPI.h>
+#include <MFRC522.h>
+
+#define RST_PIN 6
+#define SS_PIN 53
+
+byte readCard[4];
+String MasterTag = "51F95027"; 
+String tagID = "";
+MFRC522 mfrc522(SS_PIN, RST_PIN);
+
 #include <LiquidCrystal.h>
 #include <Servo.h>
-
 Servo myservo;        //servo object to control a servo
 bool rotation = true; //this is used to check, if the servo is rotatin to or from 180 degrees. true = 0 -> 180 and false 180 -> 0
 int calibratedDistance[13] = {0};
@@ -18,11 +28,14 @@ int arrayPos = 0;     //arrayPos to circumvent the problem created by dividing s
 int newTime = 0;
 int oldTime = 60000; 
 
+
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9, ESPPin = 8; //Reserving digital pins 2-7 for lcd, pin 13 for servo, pin 8 for ESP3866 and pins 10-9 for ultrasonic sensor
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //intializing the LiquidCrystal library by associating the pins
 
 void setup() {
   Serial.begin(9600);
+  SPI.begin();
+  mfrc522.PCD_Init();
   //attaches the servo on pin 13 to the servo object
   myservo.attach(servoPin);
   //Setting the pin modes
@@ -47,16 +60,24 @@ void setup() {
   lcd.print("is done");
   delay(500);
   lcd.clear();
-
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  aaniTutka();
-  servoMoottori();
-  arrayPosition();
-  scanCompare();
-  //ilmoitusLCD();
+  while (getID()==false)
+  {  
+	  aaniTutka();
+	  servoMoottori();
+	  arrayPosition();
+	  scanCompare();
+  }
+  Serial.print(" ID : ");
+  Serial.println(tagID);
+  while(getID()!=true)
+  {
+    Serial.println("Keskeytetty");
+    delay(500);
+  }
 }
 
 void arrayPosition() {
@@ -185,5 +206,32 @@ void emailSendTimer(){
             oldTime = newTime + 300000;
             Serial.println(oldTime);
             ilmoitusSahkoposti();
+  }
+}
+
+//Read new tag if available
+boolean getID() 
+{
+  // Getting ready for Reading PICCs
+  if ( ! mfrc522.PICC_IsNewCardPresent()) { //If a new PICC placed to RFID reader continue
+  return false;
+  }
+  if ( ! mfrc522.PICC_ReadCardSerial()) { //Since a PICC placed get Serial and continue
+  return false;
+  }
+  tagID = "";
+  for ( uint8_t i = 0; i < 4; i++) { // The MIFARE PICCs that we use have 4 byte UID
+  //readCard[i] = mfrc522.uid.uidByte[i];
+  tagID.concat(String(mfrc522.uid.uidByte[i], HEX)); // Adds the 4 bytes in a single String variable
+  }
+  tagID.toUpperCase();
+  mfrc522.PICC_HaltA(); // Stop reading
+  if (tagID == MasterTag) 
+  {
+    return true;
+  }
+  else
+  {
+    return false;
   }
 }
