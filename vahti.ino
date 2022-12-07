@@ -8,9 +8,6 @@
 
 #include <LiquidCrystal.h>
 #include <Servo.h>
-#include <ESP8266WiFi.h>
-#include <ESP8266HTTPClient.h>
-#include <WiFiClientSecure.h>
 
 Servo myservo;        //servo object to control a servo
 bool rotation = true; //this is used to check, if the servo is rotatin to or from 180 degrees. true = 0 -> 180 and false 180 -> 0
@@ -20,12 +17,6 @@ int servoPos = 0;    //variable to store the servo position
 int arrayPos = 0;     //arrayPos to circumvent the problem created by dividing servoPos by 15
 int newTime = 0;
 int oldTime = 60000; 
-
-// Network authentication
-const char* ssid = ""; // Defines WIFI SSID
-const char* password = ""; // Defines WIFI Password
-String url = ""; // Defines the url that is going to be requrested.
-
 
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9, ESPPin = 8; //Reserving digital pins 2-7 for lcd, pin 13 for servo, pin 8 for ESP3866 and pins 10-9 for ultrasonic sensor
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //intializing the LiquidCrystal library by associating the pins
@@ -57,18 +48,6 @@ void setup() {
   delay(500);
   lcd.clear();
 
-  WiFi.begin(ssid, password); // Connects to the wifi network
-  Serial.println("");
-  Serial.print("Connecting");
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.print("Connected to ");
-  Serial.println(ssid);
-  Serial.print("IP Address: ");
-  Serial.println(WiFi.localIP());
 }
 
 void loop() {
@@ -136,23 +115,9 @@ int aaniTutka() {
 }
 
 void ilmoitusSahkoposti() {
-  if (WiFi.status() == WL_CONNECTED) {
-    WiFiClientSecure client;
-client.setInsecure();
-    
-    HTTPClient https;
-    Serial.println("Requesting " + url);
-    if (https.begin(client, url)) {
-      int httpCode = https.GET();
-      Serial.println("============== Response code: " + String(httpCode));
-      if (httpCode > 0) {
-        Serial.println(https.getString());
-      }
-      https.end();
-    } else {
-      Serial.printf("[HTTPS] Unable to connect\n");
-    }
-  }
+  digitalWrite(ESPPin, HIGH);
+  delay(1000);
+  digitalWrite(ESPPin, LOW);
 }
 
 void ilmoitusLCD() {
