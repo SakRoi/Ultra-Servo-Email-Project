@@ -9,8 +9,8 @@
 #include <SPI.h>
 #include <MFRC522.h>
 
-#define RST_PIN 9
-#define SS_PIN 10
+#define RST_PIN 5
+#define SS_PIN 53
 
 byte readCard[4];
 String MasterTag = "51F95027"; 
