@@ -1,53 +1,46 @@
 #include <ESP8266WiFi.h>
-WiFiClient client;
+#include <ESP8266HTTPClient.h>
+#include <WiFiClientSecure.h>
 
-#define WIFI_SSID ""
-#define WIFI_PASSWORD ""
-
-int HTTP_PORT = 80;
-String HTTP_METHOD = "GET";
-char HOST_NAME[] = "maker.ifttt.com";
-String PATH_NAME = "";
-
-// const char* resource = "";
-// const char* server = "maker.ifttt.com";
+const char* ssid = "";
+const char* password =  "";
+String url = ""; 
 
 void setup() {
   Serial.begin(115200);
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  Serial.print("Connecting to ");
-  Serial.print(WIFI_SSID);
-  Serial.println(" ...");
-
-  int i = 0;
+  WiFi.begin(ssid, password);
+  Serial.println("");
+  Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.print(++i);
-    Serial.println('\n');
+    delay(500);
+    Serial.print(".");
   }
-  Serial.println('\n');
-  Serial.println("Connection established!");
-  Serial.print("IP address:\t");
+
+  Serial.println("");
+  Serial.print("Connected to ");
+  Serial.println(ssid);
+  Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
-
-  client.println(HTTP_METHOD + " " + PATH_NAME + " HTTP/1.1");
-  client.println("Host: " + String(HOST_NAME));
-  client.println("Connection: close");
-  client.println(); 
-
-  while (client.connected()) {
-    if (client.available()) {
-      char c = client.read();
-      Serial.print(c);
-    }
-  }
-  client.stop();
-  Serial.println();
-  Serial.println("Disconnected");
-  }
+}
 
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  
+  if (WiFi.status() == WL_CONNECTED) {
+    WiFiClientSecure client;
+client.setInsecure();
+    
+    HTTPClient https;
+    Serial.println("Requesting " + url);
+    if (https.begin(client, url)) {
+      int httpCode = https.GET();
+      Serial.println("============== Response code: " + String(httpCode));
+      if (httpCode > 0) {
+        Serial.println(https.getString());
+      }
+      https.end();
+    } else {
+      Serial.printf("[HTTPS] Unable to connect\n");
+    }
   }
+  delay(5000);
+}
