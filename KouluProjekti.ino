@@ -73,7 +73,11 @@ void loop() {
   }
   Serial.print(" ID : ");
   Serial.println(tagID);
-  //ilmoitusLCD();
+  while(getID()!=true)
+  {
+    Serial.println("Keskeytetty");
+    delay(500);
+  }
 }
 
 void arrayPosition() {
