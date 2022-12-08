@@ -69,15 +69,16 @@ void loop() {
 	  aaniTutka();
 	  servoMoottori();
 	  arrayPosition();
-	  scanCompare();
+    if(scanCompare()==false)
+    {
+      emailSendTimer();
+    }
   }
-  Serial.print(" ID : ");
-  Serial.println(tagID);
   while(getID()==false)
   {
     Serial.println("Keskeytetty");
   }
-	delay(500);
+  delay(500);
 }
 
 void arrayPosition() {
@@ -177,25 +178,22 @@ void calibration() {
   }
 }
 
-void scanCompare() {
+boolean scanCompare() {
   if ((calibratedDistance[arrayPos]<=(distance+2))&(calibratedDistance[arrayPos]>=(distance-2)))
   {
     Serial.println("Täsmää");
     Serial.print("arrayPos: ");
     Serial.println(arrayPos);
+    return true;
   }
   else
   {
-//    Serial.print("distance from scancompare: ");
-//    Serial.println(distance);
-//    Serial.print("distance from calibratedDistance: ");
-//    Serial.println(calibratedDistance[arrayPos]);
     Serial.println("Ei Täsmää");
     Serial.print("arrayPos: ");
     Serial.println(arrayPos);
     Serial.print("distance from calibratedDistance: ");
     Serial.println(calibratedDistance[arrayPos]);
-    emailSendTimer();
+    return false;
     //ilmoitusSahkoposti();
   }
 
