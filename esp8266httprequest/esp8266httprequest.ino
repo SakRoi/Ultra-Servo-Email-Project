@@ -2,8 +2,11 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiClientSecure.h>
 
+// Authenticating network access
 const char* ssid = "";
 const char* password =  "";
+
+// The IFTTT webhook with your key
 String url = ""; 
 
 void setup() {
@@ -12,13 +15,19 @@ void setup() {
   Serial.println("");
   Serial.print("Connecting");
   while (WiFi.status() != WL_CONNECTED) {
+    // If WiFi has not been connected
+    // Dots will be printed to serial
     delay(500);
     Serial.print(".");
   }
 
+  // Once connection has been established,
+  // You will be greeted with a message
   Serial.println("");
   Serial.print("Connected to ");
   Serial.println(ssid);
+
+  // Can be removed if you want your IP hidden
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 }
