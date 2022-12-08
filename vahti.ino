@@ -73,11 +73,11 @@ void loop() {
   }
   Serial.print(" ID : ");
   Serial.println(tagID);
-  while(getID()!=true)
+  while(getID()==false)
   {
     Serial.println("Keskeytetty");
-    delay(500);
   }
+	delay(500);
 }
 
 void arrayPosition() {
