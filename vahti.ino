@@ -25,8 +25,8 @@ int calibratedDistance[13] = {0};
 int distance = 0;
 int servoPos = 0;    //variable to store the servo position
 int arrayPos = 0;     //arrayPos to circumvent the problem created by dividing servoPos by 15
-int newTime = 0;
-int oldTime = 60000; 
+long newTime = 0;
+long oldTime = 60000; 
 
 
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9, ESPPin = 8; //Reserving digital pins 2-7 for lcd, pin 13 for servo, pin 8 for ESP3866 and pins 10-9 for ultrasonic sensor
@@ -136,6 +136,7 @@ int aaniTutka() {
 }
 
 void ilmoitusSahkoposti() {
+  Serial.println("ILMOITUSSÄHKÖPOSTISSA");
   digitalWrite(ESPPin, HIGH);
   delay(1000);
   digitalWrite(ESPPin, LOW);
@@ -194,6 +195,7 @@ void scanCompare() {
     Serial.println(arrayPos);
     Serial.print("distance from calibratedDistance: ");
     Serial.println(calibratedDistance[arrayPos]);
+    emailSendTimer();
     //ilmoitusSahkoposti();
   }
 
@@ -201,9 +203,10 @@ void scanCompare() {
 
 
 void emailSendTimer(){
+    Serial.println("EMAILSENDTIMERISSÄ");
     newTime = millis();
         if(oldTime - newTime < 0){
-            oldTime = newTime + 300000;
+            oldTime = newTime + 60000;
             Serial.println(oldTime);
             ilmoitusSahkoposti();
   }
