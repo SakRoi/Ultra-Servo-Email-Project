@@ -67,6 +67,7 @@ void loop() {
   while (getID()==false)
   {  
 	  aaniTutka();
+	  ilmoitusLCD();
 	  servoMoottori();
 	  arrayPosition();
     if(scanCompare()==false)
