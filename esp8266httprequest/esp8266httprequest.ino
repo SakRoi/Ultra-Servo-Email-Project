@@ -9,7 +9,10 @@ const char* password =  "";
 // The IFTTT webhook with your key
 String url = ""; 
 
+
+
 void setup() {
+  pinMode(2, INPUT);
   Serial.begin(115200);
   WiFi.begin(ssid, password);
   Serial.println("");
@@ -33,24 +36,23 @@ void setup() {
 }
 
 
-void loop() {
+void loop() {        
     if (WiFi.status() == WL_CONNECTED) {
-    WiFiClientSecure client;
-client.setInsecure();
-    
-    HTTPClient https;
-    Serial.println("Requesting " + url);
-    if (https.begin(client, url)) {
-      int httpCode = https.GET();
-      Serial.println("============== Response code: " + String(httpCode));
-      if (httpCode > 0) {
-        Serial.println(https.getString());
+      WiFiClientSecure client;
+      client.setInsecure();
+      
+      HTTPClient https;
+      Serial.println("Requesting " + url);
+      if (https.begin(client, url)) {
+        int httpCode = https.GET();
+        Serial.println("============== Response code: " + String(httpCode));
+        if (httpCode > 0) {
+          Serial.println(https.getString());
+        }
+        https.end();
+      } else {
+        Serial.printf("[HTTPS] Unable to connect\n");
       }
-      https.end();
-    } else {
-      Serial.printf("[HTTPS] Unable to connect\n");
     }
-  }
-  delay(5000);
+    delay(10000);
 }
-
