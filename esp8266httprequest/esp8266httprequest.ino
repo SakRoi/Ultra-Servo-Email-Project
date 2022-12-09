@@ -12,7 +12,6 @@ String url = "";
 
 
 void setup() {
-  pinMode(2, INPUT);
   Serial.begin(115200);
   WiFi.begin(ssid, password);
   Serial.println("");
@@ -36,7 +35,9 @@ void setup() {
 }
 
 
-void loop() {        
+void loop() {  
+    int input = digitalRead(2);
+    if (input == HIGH) {      
     if (WiFi.status() == WL_CONNECTED) {
       WiFiClientSecure client;
       client.setInsecure();
@@ -54,5 +55,6 @@ void loop() {
         Serial.printf("[HTTPS] Unable to connect\n");
       }
     }
-    delay(10000);
+    delay(2000);
+  }
 }
