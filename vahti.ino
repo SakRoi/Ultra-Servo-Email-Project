@@ -84,7 +84,6 @@ void loop() {
     Serial.println("Keskeytetty");
   }
   delay(500);
-  calibration();
 }
 
 void arrayPosition() {
