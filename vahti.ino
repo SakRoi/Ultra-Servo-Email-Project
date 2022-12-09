@@ -27,7 +27,7 @@ int servoPos = 0;    //variable to store the servo position
 int arrayPos = 0;     //arrayPos to circumvent the problem created by dividing servoPos by 15
 long newTime = 0;
 long oldTime = 60000; 
-bool timeState = false;
+bool timeState = false; //used in emailspam prevention
 
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9, ESPPin = 8; //Reserving digital pins 2-7 for lcd, pin 13 for servo, pin 8 for ESP3866 and pins 10-9 for ultrasonic sensor
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //intializing the LiquidCrystal library by associating the pins
