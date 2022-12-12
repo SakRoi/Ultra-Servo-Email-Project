@@ -5,13 +5,9 @@
     Lauri Tuovinen 
 */
 
-
+//rfid setup
 #include <SPI.h>
 #include <MFRC522.h>
-
-#define RST_PIN 6
-#define SS_PIN 53
-
 byte readCard[4];
 String MasterTag = "51F95027"; 
 String tagID = "";
@@ -29,7 +25,7 @@ long newTime = 0;
 long oldTime = 60000; 
 bool timeState = false; //used in emailspam prevention
 
-const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9, ESPPin = 8; //Reserving digital pins 2-7 for lcd, pin 13 for servo, pin 8 for ESP3866 and pins 10-9 for ultrasonic sensor
+const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2, servoPin = 13, trigPin = 10, echoPin = 9, ESPPin = 8, RST_PIN = 6, SS_PIN = 53; //Reserving digital pins 2-7 for lcd, pin 13 for servo, pin 8 for ESP3866 and pins 10-9 for ultrasonic sensor
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7); //intializing the LiquidCrystal library by associating the pins
 
 void setup() {
