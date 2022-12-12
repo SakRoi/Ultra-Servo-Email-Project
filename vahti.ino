@@ -1,8 +1,8 @@
 /* This school project was made by:
-    Saku Roininen - LCD screen
-    Santtu Niskanen - ESP3866 connection and email
-    Joonas Ridanpää - Ultrasonic sensor
-    Lauri Tuovinen - Servo Motor
+    Saku Roininen 
+    Santtu Niskanen 
+    Joonas Ridanpää 
+    Lauri Tuovinen 
 */
 
 
