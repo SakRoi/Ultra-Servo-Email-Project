@@ -7,7 +7,8 @@ An Arduino Mega & ESP3822 School project, which gathers data a rotating ultrasou
 - <a href="https://www.arduino.cc/en/software">Arduino IDE itself (I recommend using 1.8.xx IDE as I've had problems with ESP3822 using 2.0.xx)</a>
 - <a href="https://arduino-esp8266.readthedocs.io/en/latest/installing.html">Arduino IDE ESP8266 Board Manager and it's own Prerequisites</a>
 - ESP3822 (any module works, but we used ESP-01S)
-  - <sub>IF using ESP-01, a way for the computer and ESP to communicate, we recommend using an USB-ESP01 adapter, spares some headaches.</sub>
+  - <sub>IF using ESP-01/ESP-01S, a way for the computer and ESP to communicate, we recommend using an USB-ESP01 adapter, spares some headaches.</sub>
+  - <sub>IF using ESP-01, remember to get extra ~12k ohm resistors to pull-up GPIO0, GPIO2, RST and EN pins.</sub>
 - Arduino compatible 16*2 LCD-screen
 - Arduino compatible servomotor
 - Ultrasound sensor
@@ -17,6 +18,7 @@ An Arduino Mega & ESP3822 School project, which gathers data a rotating ultrasou
 - 10k ohm resistor
 - 220 ohm resistor
 - 10k ohm potentiometer
+- RFID-RC522 RFID reader and a RFID tag
 
 ### Instalation guide
 ![Vahti](https://github.com/SakRoi/V.A.H.T.I/blob/main/vahti.png)
