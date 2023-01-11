@@ -1,6 +1,6 @@
 # V.A.H.T.I
 ### Description
-An Arduino Mega & ESP3822 School project, which gathers data a rotating ultrasound sensor, displays data on an lcd screen and sends an alarm through ESP3822 to an email address using IFTTT Webhook. A school project for first semester.
+An Arduino Mega & ESP3822 School project, which gathers data with a rotating ultrasound sensor, displays data on an lcd screen and sends an alarm through ESP3822 to an email address using IFTTT Webhook. A school project for first semester.
 
 ### Prerequisites
 - Arduino Mega
