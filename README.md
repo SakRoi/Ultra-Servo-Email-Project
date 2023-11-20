@@ -49,11 +49,11 @@ A school project for first semester.
 4. Compile and upload esp8266.ino source code onto ESP8266.
 5. Build the device according to the circuit diagram.
 
-[TODO: a good and up to date circuit diagram] 
+[TODO: a good and up to date circuit diagram]
+
+![Vahti](https://github.com/SakRoi/V.A.H.T.I/blob/main/vahti.png)
 
 ### Roadmap
 - Make arduino.ino work for multiple boards by either compile time trickery or just making multiple source codes.
 - Demo video
 - Circuit diagram
-
-![Vahti](https://github.com/SakRoi/V.A.H.T.I/blob/main/vahti.png)
