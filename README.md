@@ -51,8 +51,6 @@ A school project for first semester.
 
 [TODO: a good and up to date circuit diagram] 
 
-![Vahti](https://github.com/SakRoi/V.A.H.T.I/blob/main/vahti.png)
-
 ### Roadmap
 - Make arduino.ino work for multiple boards by either compile time trickery or just making multiple source codes.
 - Demo video
